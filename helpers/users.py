@@ -3,7 +3,7 @@ import uuid
 import json
 from config.db import db
 
-from model.quicktask_base import *
+from model.quicktask import *
 
 
 

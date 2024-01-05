@@ -5,13 +5,13 @@ from sqlalchemy.sql import expression
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_username = db.Column(db.String(128), nullable=False)
-    user_email = db.Column(db.String(128), nullable=False)
-    user_password = db.Column(db.String(128), nullable=False)
-    user_mobile = db.Column(db.String(128), nullable=False)
-    user_address = db.Column(db.String(128), nullable=False)
-    user_country = db.Column(db.String(128), nullable=False)
-    user_city = db.Column(db.String(128), nullable=False)
+    u_username = db.Column(db.String(128), nullable=False)
+    u_email = db.Column(db.String(128), nullable=False)
+    u_password = db.Column(db.String(128), nullable=False)
+    u_mobile = db.Column(db.String(128), nullable=False)
+    u_address = db.Column(db.String(128), nullable=False)
+    u_country = db.Column(db.String(128), nullable=False)
+    u_city = db.Column(db.String(128), nullable=False)
 
 
 class Service_Provider(db.Model):

@@ -4,7 +4,7 @@ from flask_restful import Resource, Api
 from flask_migrate import Migrate
 from config.db import db
 from config.constant import *
-from model.quicktask_base import *
+from model.quicktask import *
 from resources.users import UsersApi
 
 
