@@ -27,7 +27,7 @@ api = Api(app)
 
 
 
-@app.route('/a')
+@app.route('/a')    
 def home():
     print('HELLO IM HERE')
     return render_template('index.html')
