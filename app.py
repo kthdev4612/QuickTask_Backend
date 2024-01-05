@@ -6,6 +6,8 @@ from config.db import db
 from config.constant import *
 from model.quicktask_base import *
 from resources.users import UsersApi
+from flask_migrate import Migrate
+
 
 
 app = Flask(__name__)
