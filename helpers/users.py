@@ -13,30 +13,37 @@ def CreateUser():
     reponse = {}
 
     try:
-        us_username = (request.json.get('username'))
-        us_email = (request.json.get('email'))
-        us_password = (request.json.get('password'))
-        us_details = (request.json.get('details'))
+        user_username = (request.json.get('username'))
+        user_email = (request.json.get('email'))
+        user_password = (request.json.get('password'))
+        user_mobile = (request.json.get('details'))
+        user_address = (request.json.get('details'))
+        user_country = (request.json.get('details'))
+        user_city = (request.json.get('details'))
         
-        new_user = Users()
-        # new_user.user_name = user_name
-        # new_user.user_location = user_location
-        # new_user.user_description = user_description
-        # new_user.user_phone_tel = user_phone_tel
-        # new_user.user_star = user_star
+        new_user = User()
+        new_user.user_username = user_username
+        new_user.user_email = user_email
+        new_user.user_password = user_password
+        new_user.user_mobile = user_mobile
+        new_user.user_address = user_address
+        new_user.user_country = user_country
+        new_user.user_city = user_city
         
-        # db.session.add(new_user)
-        # db.session.commit()
+        db.session.add(new_user)
+        db.session.commit()
 
         # nouvel_hotel =(reponse)
         # liste_hotels.append(nouvel_hotel)
 
-        reponse['us_username'] = us_username
-        reponse['us_email'] = us_email
-        reponse['us_password'] = us_password
-        reponse['us_details'] = us_details
+        reponse['user_username'] = user_username
+        reponse['user_email'] = user_email
+        reponse['user_password'] = user_password
+        reponse['user_mobile'] = user_mobile
+        reponse['user_address'] = user_address
+        reponse['user_country'] = user_country
+        reponse['user_city'] = user_city
         reponse['status'] = 'htl created from helper'
-
 
     except Exception as e:
         reponse['error_description'] = str(e)
