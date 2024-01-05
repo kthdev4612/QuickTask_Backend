@@ -9,8 +9,11 @@ class UsersApi(Resource):
         if route == "create":
             return CreateUser()
         
-        if route == "read":
-            return ReadUser()
+        if route == "update":
+            return UpdateUser()
+        
+        if route == "delete":
+            return DeleteUser()
     
     def get(self, route):
         if route == "read":
