@@ -6,18 +6,21 @@ from flask import request
 
 class BookingApi(Resource):
     def post(self, route):
-        if route == "create":
-            return CreateUser()
+        if route == "createBooking":
+            return CreateBooking()
     
     def get(self, route):
-        if route == "read":
-            return ReadUser()
+        if route == "ReadAllBooking":
+            return GetAllBooking()
+
+        if route == "readSingleBooking":
+            return GetSingleBooking()
     
     def delete(self, route):
-         if route == "delete":
-            return DeleteUser()
+         if route == "DeleteBooking":
+            return DeleteBooking()
          
     def patch(self, route):
-        if route == "update":
-            return UpdateUser()
+        if route == "UpdateBooking":
+            return UpdateBooking()
         

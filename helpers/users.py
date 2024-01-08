@@ -172,25 +172,22 @@ def DeleteUser():
 
 
 def LoginUser():
-    response = {}
+    reponse = {}
+
+    username = (request.json.get('username'))
+    password = (request.json.get('password'))
+
+    login = User()
+
+    if username == login.u_username:
+        if password == login.u_password:
+            reponse['status'] = "success"
 
     try:
-        username = request.json.get('username')
-        password = request.json.get('password')
-
-        # loginuser = User.query.filter_by(u_username =username).first()
-        loginuser = User()
-
-
-        if username == loginuser.u_username and password == loginuser.u_password:
-        
-            response['status'] = 'success'
-        else:
-            response['status'] = 'error'
-            response['motif'] = 'Nom d\'utilisateur ou mot de passe incorrect'
+        reponse['status'] = 'Succes'
 
     except Exception as e:
-        response['error_description'] = str(e)
-        response['status'] = 'error'
+        reponse['error_description'] = str(e)
+        reponse['status'] = 'error'
 
-    return response
+    return reponse
