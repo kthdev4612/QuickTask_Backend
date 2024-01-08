@@ -24,7 +24,7 @@ class Service_Provider(db.Model):
 
 class Services(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    s_serviceName = db.Column(db.String(128), nullable=False)
+    s_servicename = db.Column(db.String(128), nullable=False)
     s_description = db.Column(db.String(255), nullable=False)
     s_price = db.Column(db.String(128), nullable=False)
     s_providerID = db.Column(db.Integer, db.ForeignKey(Service_Provider.id))

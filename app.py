@@ -40,7 +40,7 @@ api.add_resource(UsersApi, '/api/user/<string:route>', endpoint='all_user', meth
 api.add_resource(BookingApi, '/api/booking/<string:route>', endpoint='all_booking', methods=['GET', 'POST', 'DELETE', 'PATCH'])
 api.add_resource(PaymentApi, '/api/payment/<string:route>', endpoint='all_payment', methods=['GET', 'POST', 'DELETE', 'PATCH'])
 api.add_resource(Service_ProviderApi, '/api/service_provider/<string:route>', endpoint='all_service_provider', methods=['GET', 'POST', 'DELETE', 'PATCH'])
-api.add_resource(ServicesApi, '/api/services/<string:route>', endpoint='all_services', methods=['GET', 'POST', 'DELETE', 'PATCH'])
+api.add_resource(ServicesApi, '/api/service/<string:route>', endpoint='all_services', methods=['GET', 'POST', 'DELETE', 'PATCH'])
 
 if __name__ == '__main__':
     app.run(debug=True,  host="0.0.0.0")

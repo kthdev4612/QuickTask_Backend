@@ -1,8 +1,8 @@
 from flask import request
 import uuid
 from config.db import db
-
 from model.quicktask import User
+
 
 
 
@@ -12,22 +12,22 @@ def CreateUser():
     reponse = {}
 
     try:
-        username = (request.json.get('username'))
-        email = (request.json.get('email'))
-        password = (request.json.get('password'))
-        mobile = (request.json.get('mobile'))
-        address = (request.json.get('address'))
-        country = (request.json.get('country'))
-        city = (request.json.get('city'))
+        u_username = (request.json.get('username'))
+        u_email = (request.json.get('email'))
+        u_password = (request.json.get('password'))
+        u_mobile = (request.json.get('mobile'))
+        u_address = (request.json.get('address'))
+        u_country = (request.json.get('country'))
+        u_city = (request.json.get('city'))
         
         new_user = User()
-        new_user.u_username = username
-        new_user.u_email = email
-        new_user.u_password = password
-        new_user.u_mobile = mobile
-        new_user.u_address = address
-        new_user.u_country = country
-        new_user.u_city = city
+        new_user.u_username = u_username
+        new_user.u_email = u_email
+        new_user.u_password = u_password
+        new_user.u_mobile = u_mobile
+        new_user.u_address = u_address
+        new_user.u_country = u_country
+        new_user.u_city = u_city
         
         db.session.add(new_user)
         db.session.commit()
@@ -35,13 +35,13 @@ def CreateUser():
         nouvel_hotel =(reponse)
         liste_users.append(nouvel_hotel)
 
-        reponse['username'] =username
-        reponse['email'] =email
-        reponse['password'] =password
-        reponse['mobile'] =mobile
-        reponse['address'] =address
-        reponse['country'] =country
-        reponse['city'] =city
+        reponse['username'] = u_username
+        reponse['email'] = u_email
+        reponse['password'] = u_password
+        reponse['mobile'] = u_mobile
+        reponse['address'] = u_address
+        reponse['country'] = u_country
+        reponse['city'] = u_city
         reponse['status'] = 'htl created from helper'
 
     except Exception as e:
@@ -53,12 +53,10 @@ def CreateUser():
 
 
 
-def ReadUser():
+def ReadAllUser():
     response = {}
 
     try:
-
-
         readAllUser = User.query.all()
 
         if readAllUser:
@@ -68,12 +66,16 @@ def ReadUser():
                 user_infos = {
                     'username': user.u_username,
                     'email': user.u_email,
+                    'password': user.u_password,
+                    'mobile': user.u_mobile,
+                    'address': user.u_address,
+                    'country': user.u_country,
+                    'city': user.u_city,
 
                     
                 }
 
-
-            user_informations.append(user_infos)
+                user_informations.append(user_infos)
 
             response['status'] = 'success'
             response ['users'] = user_informations
@@ -81,13 +83,41 @@ def ReadUser():
             response['status'] = 'erreur'
             response['motif'] = 'aucun'
 
- 
+    except Exception as e:
+        response['error_description'] = str(e)
+        response['status'] = 'error'
+
+    return response
+
+def ReadSingleUser():
+    response = {}
+
+    try:
+        readSingleUser = User.query.filter_by(id=2).first()
+
+        if readSingleUser:
+            user_infos = {
+                'username': readSingleUser.u_username,
+                'email': readSingleUser.u_email,
+                'password': readSingleUser.u_password,
+                'mobile': readSingleUser.u_mobile,
+                'address': readSingleUser.u_address,
+                'country': readSingleUser.u_country,
+                'city': readSingleUser.u_city,
+            }
+
+            response['status'] = 'success'
+            response['user'] = user_infos
+        else:
+            response['status'] = 'erreur'
+            response['motif'] = 'aucun'
 
     except Exception as e:
         response['error_description'] = str(e)
         response['status'] = 'error'
 
     return response
+
 
 
 def UpdateUser  ():
@@ -97,14 +127,15 @@ def UpdateUser  ():
         updateuser = User.query.filter_by(id = 2).first()
 
         if updateuser:
-            updateuser.username = request.json.get('username',updateuser.email)
-            updateuser.email = request.json.get('email', updateuser.email)
-            updateuser.password = request.json.get('password', updateuser.password)
-            updateuser.mobile = request.json.get('mobile', updateuser.mobile)
-            updateuser.address = request.json.get('address', updateuser.address)
-            updateuser.country = request.json.get('country', updateuser.country)
-            updateuser.city = request.json.get('city', updateuser.city)
+            updateuser.u_username = request.json.get('username', updateuser.u_username)
+            updateuser.u_email = request.json.get('email', updateuser.u_email)
+            updateuser.u_password = request.json.get('password', updateuser.u_password)
+            updateuser.u_mobile = request.json.get('mobile', updateuser.u_mobile)
+            updateuser.u_address = request.json.get('address', updateuser.u_address)
+            updateuser.u_country = request.json.get('country', updateuser.u_country)
+            updateuser.u_city = request.json.get('city', updateuser.u_city)
 
+            db.session.add(updateuser)
             db.session.commit()
 
             reponse['status'] = 'Succes'
@@ -118,30 +149,51 @@ def UpdateUser  ():
     return reponse
 
 
-def DeleteUser  ():
-    reponse = {}
+def DeleteUser():
+    response = {}
 
     try:
-        reponse['status'] = 'Succes'
+        deleteuser = User.query.filter_by(id=2).first()
+
+        if deleteuser:
+            db.session.delete(deleteuser)
+            db.session.commit()
+            response['status'] = 'success'
+        else:
+            response['status'] = 'error'
+            response['motif'] = 'utilisateur non trouvé'
 
     except Exception as e:
-        reponse['error_description'] = str(e)
-        reponse['status'] = 'error'
+        response['error_description'] = str(e)
+        response['status'] = 'error'
 
-    return reponse
+    return response
 
 
-def LoginUser  ():
-    reponse = {}
+
+def LoginUser():
+    response = {}
 
     try:
-        reponse['status'] = 'Succes'
+        username = request.json.get('username')
+        password = request.json.get('password')
+
+        # loginuser = User.query.filter_by(u_username =username).first()
+        loginuser = User()
+
+
+        if username == loginuser.u_username and password == loginuser.u_password:
+        
+            response['status'] = 'success'
+        else:
+            response['status'] = 'error'
+            response['motif'] = 'Nom d\'utilisateur ou mot de passe incorrect'
 
     except Exception as e:
-        reponse['error_description'] = str(e)
-        reponse['status'] = 'error'
+        response['error_description'] = str(e)
+        response['status'] = 'error'
 
-    return reponse
+    return response
 
 
 
