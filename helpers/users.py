@@ -194,19 +194,3 @@ def LoginUser():
         response['status'] = 'error'
 
     return response
-
-
-
-
-        # readuser = User.query.all()
-        # if readuser:
-        #     for user in readuser:
-        #         all_user = ""
-        #             'username' : user.u_username,
-        #             'email' : user.u_email,
-        #             "password" = user.u_password,
-        #             "mobile" = user.u_mobile,
-        #             "address" = user.u_address,
-        #             "country" = user.u_country,
-        #             "city" = user.u_city
-        #             }
