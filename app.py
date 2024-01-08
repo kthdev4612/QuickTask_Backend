@@ -1,7 +1,6 @@
 from flask import Flask, render_template
 import os
 from flask_restful import Resource, Api
-from flask_migrate import Migrate
 from config.db import db
 from config.constant import *
 from model.quicktask import *

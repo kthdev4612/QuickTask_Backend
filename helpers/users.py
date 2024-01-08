@@ -2,7 +2,7 @@ from flask import request
 import uuid
 from config.db import db
 
-from model.quicktask import *
+from model.quicktask import User
 
 
 
@@ -53,14 +53,32 @@ def CreateUser():
 
 
 def ReadUser():
-    reponse = {}
+    response = {}
 
     try:
-        reponse['status'] = 'Succes'
+
+
+        readAllUser = User.query.all()
+
+        if readAllUser:
+            user_informations = []
+
+            for user in readAllUser:
+                user_infos = {
+                    'username': user.u_username,
+
+                    
+                }
+
+
+            user_informations.append(user_infos)
+
+            response['status'] = 'success'
+            response ['users'] = user_informations
 
     except Exception as e:
-        reponse['error_description'] = str(e)
-        reponse['status'] = 'error'
+        response['error_description'] = str(e)
+        response['status'] = 'error'
 
     return reponse
 
