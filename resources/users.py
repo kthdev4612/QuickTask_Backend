@@ -8,6 +8,8 @@ class UsersApi(Resource):
     def post(self, route):
         if route == "create":
             return CreateUser()
+        if route == "login":
+            return LoginUser()
     
     def get(self, route):
         if route == "read":

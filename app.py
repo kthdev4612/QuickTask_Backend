@@ -10,8 +10,6 @@ from resources.booking import BookingApi
 from resources.payment import PaymentApi
 from resources.service_provider import Service_ProviderApi
 from resources.services import ServicesApi
-from flask_migrate import Migrate
-
 
 
 app = Flask(__name__)
