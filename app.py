@@ -1,7 +1,6 @@
 from flask import Flask, render_template
 import os
 from flask_restful import Resource, Api
-from flask_migrate import Migrate
 from config.db import db
 from config.constant import *
 from model.quicktask import *
@@ -10,6 +9,7 @@ from resources.booking import BookingApi
 from resources.payment import PaymentApi
 from resources.service_provider import Service_ProviderApi
 from resources.services import ServicesApi
+from flask_migrate import Migrate
 
 
 app = Flask(__name__)
