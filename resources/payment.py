@@ -1,10 +1,10 @@
 from flask_restful import Resource
 import json
-from helpers.users import *
+from helpers.payment import *
 from flask import request
 
 
-class UsersApi(Resource):
+class PaymentApi(Resource):
     def post(self, route):
         if route == "create":
             return CreateUser()

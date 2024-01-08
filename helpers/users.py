@@ -12,7 +12,6 @@ def CreateUser():
     reponse = {}
 
     try:
-        user_ref = int(uuid.uuid4())
         user_username = (request.json.get('username'))
         user_email = (request.json.get('email'))
         user_password = (request.json.get('password'))
@@ -21,7 +20,6 @@ def CreateUser():
         user_country = (request.json.get('country'))
         user_city = (request.json.get('city'))
         
-        # new_user = User()
         # new_user.user_username = user_username
         # new_user.user_email = user_email
         # new_user.user_password = user_password
@@ -36,7 +34,6 @@ def CreateUser():
         nouvel_hotel =(reponse)
         liste_users.append(nouvel_hotel)
 
-        reponse['user_ref'] = user_ref
         reponse['user_username'] = user_username
         reponse['user_email'] = user_email
         reponse['user_password'] = user_password

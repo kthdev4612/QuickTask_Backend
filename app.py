@@ -6,6 +6,10 @@ from config.db import db
 from config.constant import *
 from model.quicktask import *
 from resources.users import UsersApi
+from resources.booking import BookingApi
+from resources.payment import PaymentApi
+from resources.service_provider import Service_ProviderApi
+from resources.services import ServicesApi
 from flask_migrate import Migrate
 
 
@@ -35,6 +39,10 @@ def home():
     return render_template('index.html')
 
 api.add_resource(UsersApi, '/api/user/<string:route>', endpoint='all_user', methods=['GET', 'POST', 'DELETE', 'PATCH'])
+api.add_resource(BookingApi, '/api/booking/<string:route>', endpoint='all_booking', methods=['GET', 'POST', 'DELETE', 'PATCH'])
+api.add_resource(PaymentApi, '/api/payment/<string:route>', endpoint='all_payment', methods=['GET', 'POST', 'DELETE', 'PATCH'])
+api.add_resource(Service_ProviderApi, '/api/service_provider/<string:route>', endpoint='all_service_provider', methods=['GET', 'POST', 'DELETE', 'PATCH'])
+api.add_resource(ServicesApi, '/api/services/<string:route>', endpoint='all_services', methods=['GET', 'POST', 'DELETE', 'PATCH'])
 
 if __name__ == '__main__':
     app.run(debug=True,  host="0.0.0.0")
