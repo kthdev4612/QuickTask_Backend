@@ -11,10 +11,13 @@ def CreateSp():
 
     try:
         detail = request.json.get('detail')
+        id = str(uuid.uuid4())
+
 
 
         new_sp = Service_Provider()
         new_sp.sp_service_details = detail
+        new_sp.sp_uid = id
 
         
         db.session.add(new_sp)
@@ -34,7 +37,7 @@ def UpdateSp():
 
     try:
 
-        update_sp = Service_Provider.query.filter_by(id=2).first()
+        update_sp = Service_Provider.query.filter_by(sp_uid=2).first()
         
         detail = request.json.get('detail')
 
@@ -62,7 +65,7 @@ def DeleteSp():
     response = {}
 
     try:
-        sp_id = request.json.get('id')
+        sp_id = request.json.get('sp_uid')
 
         deleted_sp = Service_Provider.query.filter_by(id=sp_id).first()
 
@@ -89,6 +92,7 @@ def GetAllSp():
 
         for sp in all_sp:
             sp_info = {
+                'sp_uid': sp.sp_uid,
                 'service provider detail': sp.sp_service_details,
                 
             }
@@ -110,10 +114,11 @@ def GetSingleSp():
     response = {}
 
     try:
-        sp_id = request.json.get('id')
+        sp_id = request.json.get('sp_uid')
         sp = Service_Provider.query.filter_by(id=sp_id).first()
 
         sp_info = {
+            'sp_uid': sp.sp_uid,
             'service provider detail': sp.sp_service_details,
 
         }
