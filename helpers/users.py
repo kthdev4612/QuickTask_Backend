@@ -18,6 +18,8 @@ def CreateUser():
         u_address = (request.json.get('address'))
         u_country = (request.json.get('country'))
         u_city = (request.json.get('city'))
+        id = str(uuid.uuid4())
+
 
         hashed_password = bcrypt.hashpw(u_password.encode('utf-8'), bcrypt.gensalt())
 
@@ -30,6 +32,7 @@ def CreateUser():
         new_user.u_address = u_address
         new_user.u_country = u_country
         new_user.u_city = u_city
+        new_user.u_uid = id
         
         db.session.add(new_user)
         db.session.commit()
@@ -39,7 +42,7 @@ def CreateUser():
 
         reponse['username'] = u_username
         reponse['email'] = u_email
-        reponse['password'] = u_password
+        # reponse['password'] = u_password
         reponse['mobile'] = u_mobile
         reponse['address'] = u_address
         reponse['country'] = u_country
@@ -66,15 +69,14 @@ def ReadAllUser():
 
             for user in readAllUser:
                 user_infos = {
+                    'u_uid': user.u_uid,
                     'username': user.u_username,
                     'email': user.u_email,
                     'password': user.u_password,
                     'mobile': user.u_mobile,
                     'address': user.u_address,
                     'country': user.u_country,
-                    'city': user.u_city,
-
-                    
+                    'city': user.u_city, 
                 }
 
                 user_informations.append(user_infos)
@@ -95,10 +97,13 @@ def ReadSingleUser():
     response = {}
 
     try:
-        readSingleUser = User.query.filter_by(id=2).first()
+        uid = request.json.get('u_uid')
+
+        readSingleUser = User.query.filter_by(u_uid = uid).first()
 
         if readSingleUser:
             user_infos = {
+                'u_uid': readSingleUser.u_uid,
                 'username': readSingleUser.u_username,
                 'email': readSingleUser.u_email,
                 'password': readSingleUser.u_password,
@@ -126,7 +131,7 @@ def UpdateUser  ():
     reponse = {}
 
     try:
-        updateuser = User.query.filter_by(id = 2).first()
+        updateuser = User.query.filter_by(u_uid = "4dc3e9d0-38b1-4622-acc9-c15b06992970").first()
 
         if updateuser:
             updateuser.u_username = request.json.get('username', updateuser.u_username)
@@ -155,7 +160,9 @@ def DeleteUser():
     response = {}
 
     try:
-        deleteuser = User.query.filter_by(id=2).first()
+        uid = request.json.get('u_uid')
+
+        deleteuser = User.query.filter_by(u_uid=uid).first()
 
         if deleteuser:
             db.session.delete(deleteuser)
