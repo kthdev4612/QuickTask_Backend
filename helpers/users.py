@@ -18,7 +18,7 @@ def CreateUser():
         u_address = (request.json.get('address'))
         u_country = (request.json.get('country'))
         u_city = (request.json.get('city'))
-        id = str(uuid.uuid4())
+        u_uid = str(uuid.uuid4())
 
         hashed_password = bcrypt.hashpw(u_password.encode('utf-8'), bcrypt.gensalt())
         
@@ -30,7 +30,7 @@ def CreateUser():
         new_user.u_address = u_address
         new_user.u_country = u_country
         new_user.u_city = u_city
-        new_user.u_uid = id
+        new_user.u_uid = u_uid
         
         db.session.add(new_user)
         db.session.commit()
@@ -38,6 +38,7 @@ def CreateUser():
         # nouvel_hotel =(reponse)
         # liste_users.append(nouvel_hotel)
 
+        reponse['u_uid'] = u_uid
         reponse['username'] = u_username
         reponse['email'] = u_email
         # reponse['password'] = u_password

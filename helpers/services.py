@@ -13,11 +13,14 @@ def CreateService():
         s_servicename = (request.json.get('servicename'))
         s_description = (request.json.get('description'))
         s_price = (request.json.get('price'))
+        s_uid = str(uuid.uuid4())
+
 
         new_service = Services()
         new_service.s_servicename = s_servicename
         new_service.s_description = s_description
         new_service.s_price = s_price
+        new_service.s_uid = s_uid
         
         db.session.add(new_service)
         db.session.commit()
@@ -25,6 +28,7 @@ def CreateService():
         # nouveau_service =(reponse)
         # liste_users.append(nouveau_service)
 
+        reponse['s_uid'] = s_uid
         reponse['servicename'] = s_servicename
         reponse['description'] = s_description
         reponse['price'] = s_price
@@ -49,6 +53,7 @@ def ReadAllService():
 
             for service in readAllService:
                 service_infos = {
+                    's_uid': service.s_uid,
                     'servicename': service.s_servicename,
                     'description': service.s_description,
                     'price': service.s_price,            
@@ -73,10 +78,12 @@ def ReadSingleService():
     response = {}
 
     try:
-        readSingleService = Services.query.filter_by(id=2).first()
+        uid = request.json.get('s_uid')
+        readSingleService = Services.query.filter_by(s_uid=uid).first()
 
         if readSingleService:
             service_infos = {
+                's_uid': readSingleService.s_uid,
                 'servicename': readSingleService.s_servicename,
                 'description': readSingleService.s_description,
                 'price': readSingleService.s_price,
@@ -100,7 +107,7 @@ def UpdateService  ():
     reponse = {}
 
     try:
-        updateservice = Services.query.filter_by(id = 2).first()
+        updateservice = Services.query.filter_by(s_uid = "2a9c4afe-8cb9-4f39-be35-d44cdd2f7d5e").first()
 
         if updateservice:
             updateservice.s_servicename = request.json.get('servicename', updateservice.s_servicename)
@@ -125,8 +132,8 @@ def DeleteService():
     response = {}
 
     try:
-        deleteservice = Services.query.filter_by(id=1).first()
-
+        uid = request.json.get('s_uid')
+        deleteservice = Services.query.filter_by(s_uid=uid).first()
         if deleteservice:
             db.session.delete(deleteservice)
             db.session.commit()
