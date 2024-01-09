@@ -1,1 +1,1 @@
-LIEN_BASE_DE_DONNEES = 'mysql+pymysql://admin:admin@localhost/quicktask'
+LIEN_BASE_DE_DONNEES = 'mysql+pymysql://root:@localhost/quicktask'

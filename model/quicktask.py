@@ -45,7 +45,7 @@ class Booking(db.Model):
     b_serviceID = db.Column(db.Integer, db.ForeignKey(Services.id))
     b_bookingDate = db.Column(db.String(128), nullable=False)
     b_status = db.Column(db.String(20), nullable=False)
-    b_uid = db.Column(db.String(128), nullable=False)
+    b_uid = db.Column(db.String(128))
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     update_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 

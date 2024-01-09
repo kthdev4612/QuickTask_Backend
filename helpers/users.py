@@ -5,7 +5,7 @@ from model.quicktask import User
 import bcrypt 
 from werkzeug.security import check_password_hash
 
-liste_users = []
+# liste_users = []
    
 def CreateUser():
     reponse = {}
@@ -20,9 +20,7 @@ def CreateUser():
         u_city = (request.json.get('city'))
         id = str(uuid.uuid4())
 
-
         hashed_password = bcrypt.hashpw(u_password.encode('utf-8'), bcrypt.gensalt())
-
         
         new_user = User()
         new_user.u_username = u_username
@@ -37,8 +35,8 @@ def CreateUser():
         db.session.add(new_user)
         db.session.commit()
 
-        nouvel_hotel =(reponse)
-        liste_users.append(nouvel_hotel)
+        # nouvel_hotel =(reponse)
+        # liste_users.append(nouvel_hotel)
 
         reponse['username'] = u_username
         reponse['email'] = u_email
@@ -72,7 +70,7 @@ def ReadAllUser():
                     'u_uid': user.u_uid,
                     'username': user.u_username,
                     'email': user.u_email,
-                    'password': user.u_password,
+                    # 'password': user.u_password,
                     'mobile': user.u_mobile,
                     'address': user.u_address,
                     'country': user.u_country,
@@ -106,7 +104,7 @@ def ReadSingleUser():
                 'u_uid': readSingleUser.u_uid,
                 'username': readSingleUser.u_username,
                 'email': readSingleUser.u_email,
-                'password': readSingleUser.u_password,
+                # 'password': readSingleUser.u_password,
                 'mobile': readSingleUser.u_mobile,
                 'address': readSingleUser.u_address,
                 'country': readSingleUser.u_country,
@@ -131,7 +129,7 @@ def UpdateUser  ():
     reponse = {}
 
     try:
-        updateuser = User.query.filter_by(u_uid = "4dc3e9d0-38b1-4622-acc9-c15b06992970").first()
+        updateuser = User.query.filter_by(u_uid = "b7f45e6f-aecd-4a61-9122-639b71839d74").first()
 
         if updateuser:
             updateuser.u_username = request.json.get('username', updateuser.u_username)
@@ -186,9 +184,6 @@ def LoginUser():
     try:
         username = (request.json.get('username'))
         password = (request.json.get('password'))
-
-        
-
 
         login = User()
 

@@ -38,7 +38,6 @@ def CreateService():
 
 
 
-
 def ReadAllService():
     response = {}
 
@@ -68,6 +67,7 @@ def ReadAllService():
         response['status'] = 'error'
 
     return response
+
 
 def ReadSingleService():
     response = {}
