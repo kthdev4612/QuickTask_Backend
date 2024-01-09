@@ -2,9 +2,8 @@ from flask import request
 import uuid
 from config.db import db
 from model.quicktask import User
-
-
-
+import bcrypt 
+from werkzeug.security import check_password_hash
 
 liste_users = []
    
@@ -19,11 +18,14 @@ def CreateUser():
         u_address = (request.json.get('address'))
         u_country = (request.json.get('country'))
         u_city = (request.json.get('city'))
+
+        hashed_password = bcrypt.hashpw(u_password.encode('utf-8'), bcrypt.gensalt())
+
         
         new_user = User()
         new_user.u_username = u_username
         new_user.u_email = u_email
-        new_user.u_password = u_password
+        new_user.u_password = hashed_password
         new_user.u_mobile = u_mobile
         new_user.u_address = u_address
         new_user.u_country = u_country
@@ -172,22 +174,30 @@ def DeleteUser():
 
 
 def LoginUser():
-    reponse = {}
-
-    username = (request.json.get('username'))
-    password = (request.json.get('password'))
-
-    login = User()
-
-    if username == login.u_username:
-        if password == login.u_password:
-            reponse['status'] = "success"
+    response = {}
 
     try:
-        reponse['status'] = 'Succes'
+        username = (request.json.get('username'))
+        password = (request.json.get('password'))
+
+        
+
+
+        login = User()
+
+        if login:
+            hash_password = password.encode('utf-8')
+
+            if bcrypt.checkpw(hash_password, login.u_password.encode('utf-8')) and username == login.u_username:
+
+                response['status'] = 'success'
+                response['message'] = 'Login successful'
+            else:
+                response['status'] = 'error'
+                response['message'] = 'Invalid username or password'
 
     except Exception as e:
-        reponse['error_description'] = str(e)
-        reponse['status'] = 'error'
+        response['error_description'] = str(e)
+        response['status'] = 'error'
 
-    return reponse
+    return response
