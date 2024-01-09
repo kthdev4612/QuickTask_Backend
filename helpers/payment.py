@@ -15,6 +15,7 @@ def CreatePayment():
 
 
         new_payment = Payment()
+
         new_payment.p_amount = amount
         new_payment.p_paymentDate = paymenDate
 
@@ -67,8 +68,9 @@ def DeletePayment():
     response = {}
 
     try:
-        deleted_payment = Payment.query.filter_by(id=1).first()
+        payment_id = request.json.get('id')
 
+        deleted_payment = Payment.query.filter_by(id=payment_id).first()
    
         db.session.delete(deleted_payment)
         db.session.commit()
@@ -114,7 +116,9 @@ def GetSinglePayment():
     response = {}
 
     try:
-        payment = Payment.query.filter_by(id=3).first()
+        payment_id = request.json.get('id')
+
+        payment = Payment.query.filter_by(id=payment_id).first()
 
         payment_info = {
             'amount': payment.p_amount,

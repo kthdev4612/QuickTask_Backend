@@ -12,6 +12,8 @@ class PaymentApi(Resource):
     def get(self, route):
         if route == "readAllPayment":
             return GetAllPayment()
+        if route == "readSinglePayment":
+            return GetSinglePayment()
     
     def delete(self, route):
          if route == "deletePayment":

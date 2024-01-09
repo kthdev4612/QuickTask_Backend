@@ -11,8 +11,12 @@ def CreateBooking():
 
     try:
         status = request.json.get('status')
+        bookingDate = request.json.get('booking_date')
+
         new_booking = Booking()
+
         new_booking.b_status = status
+        new_booking.b_bookingDate = bookingDate
 
         
         db.session.add(new_booking)
@@ -62,7 +66,9 @@ def DeleteBooking():
     response = {}
 
     try:
-        deleted_user = Booking.query.filter_by(id=1).first()
+        booking_id = request.json.get('id')
+
+        deleted_user = Booking.query.filter_by(id=booking_id).first()
 
    
         db.session.delete(deleted_user)
@@ -88,7 +94,8 @@ def GetAllBooking():
 
         for booking in all_booking:
             booking_info = {
-                'booking_satuts': booking.b_status
+                'booking_satuts': booking.b_status,
+                'booking_date': booking.b_bookingDate
                 
             }
             booking_informations.append(booking_info)
@@ -109,10 +116,15 @@ def GetSingleBooking():
     response = {}
 
     try:
-        booking = Booking.query.filter_by(id=3).first()
+        booking_id = request.json.get('id')
+
+
+        booking = Booking.query.filter_by(id=booking_id).first()
 
         booking_info = {
-            'booking_satuts': booking.b_status
+            'booking_satuts': booking.b_status,
+            'booking_date': booking.b_bookingDate
+
         }
 
         response['status'] = 'success'

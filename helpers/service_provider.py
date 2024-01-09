@@ -62,7 +62,9 @@ def DeleteSp():
     response = {}
 
     try:
-        deleted_sp = Service_Provider.query.filter_by(id=1).first()
+        sp_id = request.json.get('id')
+
+        deleted_sp = Service_Provider.query.filter_by(id=sp_id).first()
 
    
         db.session.delete(deleted_sp)
@@ -108,7 +110,8 @@ def GetSingleSp():
     response = {}
 
     try:
-        sp = Service_Provider.query.filter_by(id=3).first()
+        sp_id = request.json.get('id')
+        sp = Service_Provider.query.filter_by(id=sp_id).first()
 
         sp_info = {
             'service provider detail': sp.sp_service_details,

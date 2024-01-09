@@ -12,6 +12,8 @@ class Service_ProviderApi(Resource):
     def get(self, route):
         if route == "readServiceProvider":
             return GetAllSp()
+        if route == "readSingleServiceProvider":
+            return GetSingleSp()
     
     def delete(self, route):
          if route == "deleteServiceProvider":
