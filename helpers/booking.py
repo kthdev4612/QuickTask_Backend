@@ -39,7 +39,7 @@ def UpdateBooking():
             update_booking.b_status = status
         
         else:
-            response["status"] : "eee"
+            response["status"] : 'error'
         
 
         db.session.add(update_booking)

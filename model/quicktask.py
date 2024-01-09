@@ -14,12 +14,16 @@ class User(db.Model):
     u_address = db.Column(db.String(128), nullable=False)
     u_country = db.Column(db.String(128), nullable=False)
     u_city = db.Column(db.String(128), nullable=False)
+    creation_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    update_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
 
 class Service_Provider(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     sp_userID = db.Column(db.Integer, db.ForeignKey(User.id))
     sp_service_details = db.Column(db.String(128), nullable=False)
+    creation_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    update_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
 
 class Services(db.Model):
@@ -28,6 +32,8 @@ class Services(db.Model):
     s_description = db.Column(db.String(255), nullable=False)
     s_price = db.Column(db.String(128), nullable=False)
     s_providerID = db.Column(db.Integer, db.ForeignKey(Service_Provider.id))
+    creation_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    update_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
 
 class Booking(db.Model):
@@ -36,6 +42,8 @@ class Booking(db.Model):
     b_serviceID = db.Column(db.Integer, db.ForeignKey(Services.id))
     b_bookingDate = db.Column(db.String(128), nullable=False)
     b_status = db.Column(db.String(20), nullable=False)
+    creation_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    update_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
 class Payment(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -43,6 +51,7 @@ class Payment(db.Model):
     p_bookingID = db.Column(db.Integer, db.ForeignKey(Booking.id))
     p_amount = db.Column(db.String(128), nullable=False)
     p_paymentDate = db.Column(db.String(20), nullable=False)
-
+    creation_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    update_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
 
