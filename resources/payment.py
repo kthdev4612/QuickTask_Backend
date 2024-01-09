@@ -6,18 +6,20 @@ from flask import request
 
 class PaymentApi(Resource):
     def post(self, route):
-        if route == "create":
-            return CreateUser()
+        if route == "createPayment":
+            return CreatePayment()
     
     def get(self, route):
-        if route == "read":
-            return ReadUser()
+        if route == "readAllPayment":
+            return GetAllPayment()
+        if route == "readSinglePayment":
+            return GetSinglePayment()
     
     def delete(self, route):
-         if route == "delete":
-            return DeleteUser()
+         if route == "deletePayment":
+            return DeletePayment()
          
     def patch(self, route):
-        if route == "update":
-            return UpdateUser()
+        if route == "updatePayment":
+            return UpdatePayment()
         

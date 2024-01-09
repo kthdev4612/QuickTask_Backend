@@ -2,9 +2,8 @@ from flask import request
 import uuid
 from config.db import db
 from model.quicktask import User
-
-
-
+import bcrypt 
+from werkzeug.security import check_password_hash
 
 liste_users = []
    
@@ -19,15 +18,21 @@ def CreateUser():
         u_address = (request.json.get('address'))
         u_country = (request.json.get('country'))
         u_city = (request.json.get('city'))
+        id = str(uuid.uuid4())
+
+
+        hashed_password = bcrypt.hashpw(u_password.encode('utf-8'), bcrypt.gensalt())
+
         
         new_user = User()
         new_user.u_username = u_username
         new_user.u_email = u_email
-        new_user.u_password = u_password
+        new_user.u_password = hashed_password
         new_user.u_mobile = u_mobile
         new_user.u_address = u_address
         new_user.u_country = u_country
         new_user.u_city = u_city
+        new_user.u_uid = id
         
         db.session.add(new_user)
         db.session.commit()
@@ -37,7 +42,7 @@ def CreateUser():
 
         reponse['username'] = u_username
         reponse['email'] = u_email
-        reponse['password'] = u_password
+        # reponse['password'] = u_password
         reponse['mobile'] = u_mobile
         reponse['address'] = u_address
         reponse['country'] = u_country
@@ -64,15 +69,14 @@ def ReadAllUser():
 
             for user in readAllUser:
                 user_infos = {
+                    'u_uid': user.u_uid,
                     'username': user.u_username,
                     'email': user.u_email,
                     'password': user.u_password,
                     'mobile': user.u_mobile,
                     'address': user.u_address,
                     'country': user.u_country,
-                    'city': user.u_city,
-
-                    
+                    'city': user.u_city, 
                 }
 
                 user_informations.append(user_infos)
@@ -93,10 +97,13 @@ def ReadSingleUser():
     response = {}
 
     try:
-        readSingleUser = User.query.filter_by(id=2).first()
+        uid = request.json.get('u_uid')
+
+        readSingleUser = User.query.filter_by(u_uid = uid).first()
 
         if readSingleUser:
             user_infos = {
+                'u_uid': readSingleUser.u_uid,
                 'username': readSingleUser.u_username,
                 'email': readSingleUser.u_email,
                 'password': readSingleUser.u_password,
@@ -124,7 +131,7 @@ def UpdateUser  ():
     reponse = {}
 
     try:
-        updateuser = User.query.filter_by(id = 2).first()
+        updateuser = User.query.filter_by(u_uid = "4dc3e9d0-38b1-4622-acc9-c15b06992970").first()
 
         if updateuser:
             updateuser.u_username = request.json.get('username', updateuser.u_username)
@@ -153,7 +160,9 @@ def DeleteUser():
     response = {}
 
     try:
-        deleteuser = User.query.filter_by(id=2).first()
+        uid = request.json.get('u_uid')
+
+        deleteuser = User.query.filter_by(u_uid=uid).first()
 
         if deleteuser:
             db.session.delete(deleteuser)
@@ -172,22 +181,30 @@ def DeleteUser():
 
 
 def LoginUser():
-    reponse = {}
-
-    username = (request.json.get('username'))
-    password = (request.json.get('password'))
-
-    login = User()
-
-    if username == login.u_username:
-        if password == login.u_password:
-            reponse['status'] = "success"
+    response = {}
 
     try:
-        reponse['status'] = 'Succes'
+        username = (request.json.get('username'))
+        password = (request.json.get('password'))
+
+        
+
+
+        login = User()
+
+        if login:
+            hash_password = password.encode('utf-8')
+
+            if bcrypt.checkpw(hash_password, login.u_password.encode('utf-8')) and username == login.u_username:
+
+                response['status'] = 'success'
+                response['message'] = 'Login successful'
+            else:
+                response['status'] = 'error'
+                response['message'] = 'Invalid username or password'
 
     except Exception as e:
-        reponse['error_description'] = str(e)
-        reponse['status'] = 'error'
+        response['error_description'] = str(e)
+        response['status'] = 'error'
 
-    return reponse
+    return response

@@ -6,18 +6,20 @@ from flask import request
 
 class Service_ProviderApi(Resource):
     def post(self, route):
-        if route == "create":
-            return CreateUser()
+        if route == "createServiceProvider":
+            return CreateSp()
     
     def get(self, route):
-        if route == "read":
-            return ReadUser()
+        if route == "readServiceProvider":
+            return GetAllSp()
+        if route == "readSingleServiceProvider":
+            return GetSingleSp()
     
     def delete(self, route):
-         if route == "delete":
-            return DeleteUser()
+         if route == "deleteServiceProvider":
+            return DeleteSp()
          
     def patch(self, route):
-        if route == "update":
-            return UpdateUser()
+        if route == "updateServiceProvider":
+            return UpdateSp()
         
