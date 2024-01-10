@@ -12,14 +12,14 @@ def CreateBooking():
     try:
         status = request.json.get('status')
         bookingDate = request.json.get('booking_date')
-        id = str(uuid.uuid4())
+        uid = str(uuid.uuid4())
 
         
         new_booking = Booking()
 
         new_booking.b_status = status
         new_booking.b_bookingDate = bookingDate
-        new_booking.b_uid = id
+        new_booking.b_uid = uid
         
 
 

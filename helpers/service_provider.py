@@ -11,13 +11,13 @@ def CreateSp():
 
     try:
         detail = request.json.get('detail')
-        id = str(uuid.uuid4())
+        uid = str(uuid.uuid4())
 
 
 
         new_sp = Service_Provider()
         new_sp.sp_service_details = detail
-        new_sp.sp_uid = id
+        new_sp.sp_uid = uid
 
         
         db.session.add(new_sp)

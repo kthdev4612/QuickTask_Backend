@@ -12,7 +12,7 @@ def CreatePayment():
     try:
         amount = request.json.get('amount')
         paymenDate = request.json.get('payment_date')
-        id = str(uuid.uuid4())
+        uid = str(uuid.uuid4())
 
 
 
@@ -20,7 +20,7 @@ def CreatePayment():
 
         new_payment.p_amount = amount
         new_payment.p_paymentDate = paymenDate
-        new_payment.p_uid = id
+        new_payment.p_uid = uid
 
         
         db.session.add(new_payment)
