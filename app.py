@@ -10,10 +10,11 @@ from resources.payment import PaymentApi
 from resources.service_provider import Service_ProviderApi
 from resources.services import ServicesApi
 from flask_migrate import Migrate
+from flask_cors import CORS
 
 
 app = Flask(__name__)
-
+CORS(app)
 
 
 app.secret_key = os.urandom(24)

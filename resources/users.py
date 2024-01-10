@@ -6,6 +6,7 @@ from flask import request
 
 class UsersApi(Resource):
     def post(self, route):
+        # current_user = get_jwt_identity()
         if route == "create":
             return CreateUser()
         if route == "login":

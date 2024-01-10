@@ -38,19 +38,21 @@ def CreateUser():
         # nouvel_hotel =(reponse)
         # liste_users.append(nouvel_hotel)
 
-        reponse['u_uid'] = u_uid
-        reponse['username'] = u_username
-        reponse['email'] = u_email
-        # reponse['password'] = u_password
-        reponse['mobile'] = u_mobile
-        reponse['address'] = u_address
-        reponse['country'] = u_country
-        reponse['city'] = u_city
-        reponse['status'] = 'htl created from helper'
+        # reponse['u_uid'] = u_uid
+        # reponse['username'] = u_username
+        # reponse['email'] = u_email
+        # # reponse['password'] = u_password
+        # reponse['mobile'] = u_mobile
+        # reponse['address'] = u_address
+        # reponse['country'] = u_country
+        # reponse['city'] = u_city
+        reponse['status'] = 'Succes'
 
-    except Exception as e:
-        reponse['error_description'] = str(e)
-        reponse['status'] = 'error'
+    # except Exception as e:
+    #     reponse['error_description'] = str(e)
+    #     reponse['status'] = 'error'
+    except:
+        reponse['error'] = 'Incorrect data, recheck it'
 
     return reponse
 
@@ -195,7 +197,7 @@ def LoginUser():
 
                 response['status'] = 'success'
                 response['message'] = 'Login successful'
-            else:
+            else:   
                 response['status'] = 'error'
                 response['message'] = 'Invalid username or password'
 
