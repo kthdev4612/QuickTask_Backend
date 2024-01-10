@@ -12,11 +12,16 @@ def CreateBooking():
     try:
         status = request.json.get('status')
         bookingDate = request.json.get('booking_date')
+        uid = str(uuid.uuid4())
 
+        
         new_booking = Booking()
 
         new_booking.b_status = status
         new_booking.b_bookingDate = bookingDate
+        new_booking.b_uid = uid
+        
+
 
         
         db.session.add(new_booking)
@@ -36,18 +41,16 @@ def UpdateBooking():
 
     try:
 
-        update_booking = Booking.query.filter_by(id=2).first()
+        update_booking = Booking.query.filter_by(b_uid=2).first()
         
         status = request.json.get('status')
         if status:
             update_booking.b_status = status
         
-        else:
-            response["status"] : 'error'
-        
 
         db.session.add(update_booking)
         db.session.commit()
+        
         response['status'] = 'success'
         response['message'] = "la commande a été mises à jour avec succès!"
 
@@ -66,9 +69,10 @@ def DeleteBooking():
     response = {}
 
     try:
-        booking_id = request.json.get('id')
 
-        deleted_user = Booking.query.filter_by(id=booking_id).first()
+        booking_id = request.json.get('b_uid')
+
+        deleted_user = Booking.query.filter_by(b_uid=booking_id).first()
 
    
         db.session.delete(deleted_user)
@@ -94,6 +98,7 @@ def GetAllBooking():
 
         for booking in all_booking:
             booking_info = {
+                'b_uid': booking.b_uid,
                 'booking_satuts': booking.b_status,
                 'booking_date': booking.b_bookingDate
                 
@@ -116,12 +121,13 @@ def GetSingleBooking():
     response = {}
 
     try:
-        booking_id = request.json.get('id')
+        booking_id = request.json.get('b_uid')
 
 
-        booking = Booking.query.filter_by(id=booking_id).first()
+        booking = Booking.query.filter_by(b_uid=booking_id).first()
 
         booking_info = {
+            'b_uid': booking.b_uid,
             'booking_satuts': booking.b_status,
             'booking_date': booking.b_bookingDate
 

@@ -12,12 +12,15 @@ def CreatePayment():
     try:
         amount = request.json.get('amount')
         paymenDate = request.json.get('payment_date')
+        uid = str(uuid.uuid4())
+
 
 
         new_payment = Payment()
 
         new_payment.p_amount = amount
         new_payment.p_paymentDate = paymenDate
+        new_payment.p_uid = uid
 
         
         db.session.add(new_payment)
@@ -37,7 +40,7 @@ def UpdatePayment():
 
     try:
 
-        update_payment = Payment.query.filter_by(id=2).first()
+        update_payment = Payment.query.filter_by(p_uid=2).first()
         
         amount = request.json.get('amount')
         paymenDate = request.json.get('payment_date')
@@ -68,7 +71,7 @@ def DeletePayment():
     response = {}
 
     try:
-        payment_id = request.json.get('id')
+        payment_id = request.json.get('p_uid')
 
         deleted_payment = Payment.query.filter_by(id=payment_id).first()
    
@@ -94,6 +97,7 @@ def GetAllPayment():
 
         for payment in all_payment:
             payment_info = {
+                'p_uid': payment.p_uid,
                 'amount': payment.p_amount,
                 'payment date': payment.p_paymentDate,
                 
@@ -116,11 +120,12 @@ def GetSinglePayment():
     response = {}
 
     try:
-        payment_id = request.json.get('id')
+        payment_id = request.json.get('p_uid')
 
-        payment = Payment.query.filter_by(id=payment_id).first()
+        payment = Payment.query.filter_by(u_uid=payment_id).first()
 
         payment_info = {
+            'p_uid': payment.p_uid,
             'amount': payment.p_amount,
             'payment date': payment.p_paymentDate,
         }

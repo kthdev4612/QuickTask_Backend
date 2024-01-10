@@ -15,7 +15,10 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 26341498aa49a59fe4f98d4bde3c35f292b6a2ec
 
 app.secret_key = os.urandom(24)
 app.config['DEBUG'] = True
