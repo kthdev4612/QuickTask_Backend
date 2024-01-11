@@ -1,3 +1,4 @@
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from flask import Flask, render_template
 import os
 from flask_restful import Resource, Api
@@ -13,12 +14,12 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 
 
-app = Flask(__name__)
-CORS(app)
-<<<<<<< HEAD
 
-=======
->>>>>>> 26341498aa49a59fe4f98d4bde3c35f292b6a2ec
+app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "https://quicktask.com"}})
+
+app.config['JWT_SECRET_KEY'] = 'super-secret'
+jwt = JWTManager(app)
 
 app.secret_key = os.urandom(24)
 app.config['DEBUG'] = True

@@ -1,9 +1,11 @@
-from flask import request
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
+from flask import request, jsonify
 import uuid
 from config.db import db
 from model.quicktask import User
 import bcrypt 
 from werkzeug.security import check_password_hash
+
 
 # liste_users = []
    
@@ -181,28 +183,65 @@ def DeleteUser():
 
 
 
+
 def LoginUser():
     response = {}
+    responses = {}
 
     try:
-        username = (request.json.get('username'))
-        password = (request.json.get('password'))
+        username = request.json.get('username')
+        password = request.json.get('password')
 
-        login = User()
+        login_user = User.query.filter_by(u_username=username).first()
 
-        if login:
-            hash_password = password.encode('utf-8')
+        if login_user and bcrypt.checkpw(password.encode('utf-8'), login_user.u_password.encode('utf-8')):
+            access_token = create_access_token(identity=username)
 
-            if bcrypt.checkpw(hash_password, login.u_password.encode('utf-8')) and username == login.u_username:
+            response = access_token
 
-                response['status'] = 'success'
-                response['message'] = 'Login successful'
-            else:   
-                response['status'] = 'error'
-                response['message'] = 'Invalid username or password'
+
+            responses['status'] = 'success'
+            # response['message'] = 'Login successful'
+
+        else:
+            response['status'] = 'error'
+            response['message'] = 'Invalid username or password'
 
     except Exception as e:
         response['error_description'] = str(e)
         response['status'] = 'error'
 
-    return response
+    return response, responses
+
+
+# def LoginUser():
+#     response = {}
+
+#     try:
+#         username = (request.json.get('username'))
+#         password = (request.json.get('password'))
+
+#         login = User()
+
+#         if login:
+#             hash_password = password.encode('utf-8')
+
+#             if bcrypt.checkpw(hash_password, login.u_password.encode('utf-8')) and username == login.u_username:
+#                 # access_token = create_access_token(identity=username)
+
+#                 # return jsonify(access_token=access_token), 200
+
+
+#                 response['status'] = 'success'
+#                 response['message'] = 'Login successful'
+#             else:   
+#                 # return jsonify({"msg": "Invalid credentials"}), 401
+
+#                 response['status'] = 'error'
+#                 response['message'] = 'Invalid username or password'
+
+#     except Exception as e:
+#         response['error_description'] = str(e)
+#         response['status'] = 'error'
+
+#     return response

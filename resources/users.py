@@ -6,7 +6,6 @@ from flask import request
 
 class UsersApi(Resource):
     def post(self, route):
-        # current_user = get_jwt_identity()
         if route == "create":
             return CreateUser()
         if route == "login":
@@ -17,6 +16,7 @@ class UsersApi(Resource):
             return ReadAllUser()
         if route == "readsingle":
             return ReadSingleUser()
+            
     
     def delete(self, route):
          if route == "delete":
