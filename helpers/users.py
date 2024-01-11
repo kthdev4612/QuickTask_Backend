@@ -1,9 +1,10 @@
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
+from datetime import timedelta
 from flask import request, jsonify
 import uuid
 from config.db import db
 from model.quicktask import User
-import bcrypt 
+import bcrypt, jwt
 from werkzeug.security import check_password_hash
 
 
@@ -40,14 +41,6 @@ def CreateUser():
         # nouvel_hotel =(reponse)
         # liste_users.append(nouvel_hotel)
 
-        # reponse['u_uid'] = u_uid
-        # reponse['username'] = u_username
-        # reponse['email'] = u_email
-        # # reponse['password'] = u_password
-        # reponse['mobile'] = u_mobile
-        # reponse['address'] = u_address
-        # reponse['country'] = u_country
-        # reponse['city'] = u_city
         reponse['status'] = 'Succes'
 
     # except Exception as e:
@@ -57,7 +50,6 @@ def CreateUser():
         reponse['error'] = 'Incorrect data, recheck it'
 
     return reponse
-
 
 
 
@@ -183,7 +175,6 @@ def DeleteUser():
 
 
 
-
 def LoginUser():
     response = {}
     responses = {}
@@ -195,13 +186,15 @@ def LoginUser():
         login_user = User.query.filter_by(u_username=username).first()
 
         if login_user and bcrypt.checkpw(password.encode('utf-8'), login_user.u_password.encode('utf-8')):
+            expires = timedelta(hours=1)
             access_token = create_access_token(identity=username)
 
-            response = access_token
+            # response = access_token
 
+            response['status'] = 'success'
+            response['message'] = 'Login successful'
+            response['access_token'] = access_token
 
-            responses['status'] = 'success'
-            # response['message'] = 'Login successful'
 
         else:
             response['status'] = 'error'
@@ -211,37 +204,4 @@ def LoginUser():
         response['error_description'] = str(e)
         response['status'] = 'error'
 
-    return response, responses
-
-
-# def LoginUser():
-#     response = {}
-
-#     try:
-#         username = (request.json.get('username'))
-#         password = (request.json.get('password'))
-
-#         login = User()
-
-#         if login:
-#             hash_password = password.encode('utf-8')
-
-#             if bcrypt.checkpw(hash_password, login.u_password.encode('utf-8')) and username == login.u_username:
-#                 # access_token = create_access_token(identity=username)
-
-#                 # return jsonify(access_token=access_token), 200
-
-
-#                 response['status'] = 'success'
-#                 response['message'] = 'Login successful'
-#             else:   
-#                 # return jsonify({"msg": "Invalid credentials"}), 401
-
-#                 response['status'] = 'error'
-#                 response['message'] = 'Invalid username or password'
-
-#     except Exception as e:
-#         response['error_description'] = str(e)
-#         response['status'] = 'error'
-
-#     return response
+    return response
