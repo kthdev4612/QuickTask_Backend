@@ -189,12 +189,9 @@ def LoginUser():
             expires = timedelta(hours=1)
             access_token = create_access_token(identity=username)
 
-            # response = access_token
-
             response['status'] = 'success'
             response['message'] = 'Login successful'
             response['access_token'] = access_token
-
 
         else:
             response['status'] = 'error'
